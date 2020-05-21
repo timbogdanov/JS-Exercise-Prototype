@@ -99,16 +99,18 @@ function Car(model, milesPerGallon) {
 }
 
 Car.prototype.fill = function(gallons) {
-  this.tank = this.tank + gallons;
+  this.tank += gallons;
 }
 
 Car.prototype.drive = function(distance) {
-  this.odometer = this.odometer + distance;
-  this.tank = Math.round(this.tank - (this.odometer / this.milesPerGallon));
-
-  if (this.tank < 0) {
+  let remaining = this.tank * this.milesPerGallon;
+  if (remaining <= distance) {
+    this.odometer += remaining;
     this.tank = 0;
-    console.log(`I ran out of fuel at ${this.odometer}!`);
+    return `I ran out of fuel at ${this.odometer}!`;
+  } else {
+    this.odometer += distance;
+    this.tank -= distance/this.milesPerGallon;
   }
 }
 
@@ -146,10 +148,10 @@ newBaby.play();
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1.
-  2.
-  3.
-  4.
+  1. If the new keyword is used when calling the function, this creates a new object.
+  2. If you use apply, call, or bind, `this` inside the function is the object that is passed in as the argument.
+  3. When a dot is to the left of a function, `this` is the object to the left of the dot.
+  4. `this` invoked by it self will refer to the global window.
 */
 
 
